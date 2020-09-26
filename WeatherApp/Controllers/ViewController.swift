@@ -26,15 +26,8 @@ class ViewController: UIViewController {
         setupHeaderView()
         setupCollectionView()
         setupPanGestureRecognizer()
-        
         setupLocationManager()
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        enableBasicLocationServices()
         
     }
     
@@ -42,7 +35,8 @@ class ViewController: UIViewController {
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.startUpdatingLocation()
+        enableBasicLocationServices()
         
     }
     
@@ -87,8 +81,11 @@ class ViewController: UIViewController {
                 self?.updateViews(withModel: model)
             }
         }) { [weak self] (error) in
-            self?.showErrorAlert(withTitle: "Error", message: error?.localizedDescription)
+            DispatchQueue.main.async {
+                self?.showErrorAlert(withTitle: "Error", message: error?.localizedDescription)
+            }
         }
+        
     }
     
     private func getWeather() {
@@ -98,7 +95,8 @@ class ViewController: UIViewController {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
             currentLocation = locationManager.location
         } else {
-            enableBasicLocationServices()
+            showErrorAlert(withTitle: "Error", message: "Cant get location")
+            return
         }
         if let latitude = currentLocation?.coordinate.latitude,
             let longitude = currentLocation?.coordinate.longitude {
@@ -234,7 +232,7 @@ extension ViewController: CLLocationManagerDelegate {
                 "Settings → Privacy → Location Services and turn location services on.")
             break
         case .authorizedWhenInUse, .authorizedAlways:
-            getWeather()
+            locationManager.startUpdatingLocation()
             break
         @unknown default:
             self.showErrorAlert(withTitle: "Error", message: "Unknown error")
@@ -254,7 +252,6 @@ extension ViewController: CLLocationManagerDelegate {
                 "Settings → Privacy → Location Services and turn location services on.")
             break
         case .authorizedWhenInUse, .authorizedAlways:
-            getWeather()
             locationManager.startUpdatingLocation()
             break
         @unknown default:
@@ -265,9 +262,9 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+
         getWeather()
-        
+
     }
     
 }
