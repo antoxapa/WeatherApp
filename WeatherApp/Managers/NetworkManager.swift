@@ -10,20 +10,18 @@ import Foundation
 
 class NetworkManager {
     
-    private init() {}
-    
-    static let shared: NetworkManager = NetworkManager()
     private var decoder = JSONDecoder()
     private var decoderOfferModel: OfferModel?
     
-    func getWeather(result: @escaping ((OfferModel?) -> Void), onError: @escaping (Error?) -> Void) {
+    func getWeather(forLatitude latitude: Double, longitude: Double, result: @escaping ((OfferModel?) -> Void), onError: @escaping (Error?) -> Void) {
         
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.openweathermap.org"
         urlComponents.path = "/data/2.5/onecall"
-        urlComponents.queryItems = [URLQueryItem(name: "lat", value: "53.893009"),
-                                    URLQueryItem(name: "lon", value: "27.567444"),
+        urlComponents.queryItems = [URLQueryItem(name: "lat", value: "\(latitude)"),
+                                    URLQueryItem(name: "lon", value: "\(longitude)"),
+                                    URLQueryItem(name: "units", value: "metric"),
                                     URLQueryItem(name: "exclude", value: "minutely"),
                                     URLQueryItem(name: "appid", value: Constants.API.API_KEY)
         ]
@@ -41,11 +39,31 @@ class NetworkManager {
                 return
             }
             
-            if data != nil {
-                self.decoderOfferModel = try? self.decoder.decode(OfferModel.self, from: data!)
+            if let data = data {
+                self.decoderOfferModel = try? self.decoder.decode(OfferModel.self, from: data)
             }
             
             result(self.decoderOfferModel)
+            
+        }.resume()
+        
+    }
+    
+    func getWeatherImage(forIcon icon: String, result: @escaping ((Data) -> Void), onError: @escaping (Error?) -> Void) {
+        
+        guard let url = URL(string: "http://openweathermap.org/img/w/" + "\(icon)" + ".png") else { return }
+        
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: url) { (data, nil, error) in
+            
+            if error != nil {
+                onError(error)
+                return
+            }
+            
+            if let data = data {
+                result(data)
+            }
             
         }.resume()
         
