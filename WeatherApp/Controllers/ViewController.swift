@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
 class ViewController: UIViewController {
     
@@ -26,8 +27,9 @@ class ViewController: UIViewController {
         setupHeaderView()
         setupCollectionView()
         setupPanGestureRecognizer()
-        setupLocationManager()
         
+        retrieveData()
+        setupLocationManager()
         
     }
     
@@ -79,6 +81,7 @@ class ViewController: UIViewController {
             self.model = model
             DispatchQueue.main.async { [weak self] in
                 self?.updateViews(withModel: model)
+                self?.saveInCoreData(model)
             }
         }) { [weak self] (error) in
             DispatchQueue.main.async {
@@ -103,6 +106,45 @@ class ViewController: UIViewController {
             downloadData(withLatitude: latitude, longitude: longitude)
         }
         
+    }
+    
+    func saveInCoreData(_ model: OfferModel) {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let userEntity = NSEntityDescription.entity(forEntityName: "Weather", in: managedContext)!
+        
+        let mObject = NSManagedObject(entity: userEntity, insertInto: managedContext) as! Weather
+        guard let currentWeather = model.current else { return }
+        let cWeather = CurrentWeatherData(currentWeather)
+        
+        mObject.setValue(cWeather, forKey: "current")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print(error.userInfo)
+        }
+        
+    }
+    
+    func retrieveData() {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Weather")
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            guard let lastResult = result as? [NSManagedObject] else { return }
+            let data = lastResult.last
+            let cWeather = data?.value(forKey: "current") as! CurrentWeatherData
+            let item = cWeather.currentWeather
+            
+        } catch {
+            print("Failed fetch")
+        }
     }
     
     private func updateViews(withModel model: OfferModel) {
@@ -262,9 +304,9 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
+        
         getWeather()
-
+        
     }
     
 }
