@@ -18,11 +18,11 @@ struct TextWeatherItem {
     init(with model: CurrentOfferModel) {
         
         weatherDescription = model.weather?.first?.description ?? ""
-        temperature = "\(Int(model.temp ?? 0))º"
-        windSpeed = "\(model.wind_speed ?? 0) км/ч"
+        temperature = "\(Int(model.temp ?? 0))"
+        windSpeed = "\(model.wind_speed ?? 0)"
         windDirection = "."
         if let degrees = model.wind_deg {
-            windDirection = ", ветер \(degrees.direction)."
+            windDirection = "\(degrees.direction)."
         }
         
     }

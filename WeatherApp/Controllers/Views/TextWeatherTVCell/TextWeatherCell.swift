@@ -14,7 +14,7 @@ class TextWeatherCell: UITableViewCell {
     
     func configure(withItem item: TextWeatherItem) {
         
-        weatherTextLabel.text = "Сегодня: Сейчас \(item.weatherDescription). Температура воздуха \(item.temperature), скорость ветра \(item.windSpeed)\(item.windDirection)"
+        weatherTextLabel.text = "\(i20n.todayString) \(i20n.now) \(item.weatherDescription). \(i20n.airTemperature) \(item.temperature)\(i20n.degreesString), \(i20n.windSpeed) \(item.windSpeed) \(i20n.kmhString), \(i20n.windString) \(item.windDirection)"
         
     }
 

@@ -25,29 +25,29 @@ class InfoWeatherCell: UITableViewCell {
         
         switch index {
         case 0:
-            topLeftLabel.text = "ВОСХОД СОЛНЦА"
-            topRightLabel.text = "ЗАХОД СОЛНЦА"
+            topLeftLabel.text = i20n.sunriseLabel
+            topRightLabel.text = i20n.sunsetLabel
             bottomLeftLabel.text = item.sunrise
             bottomRightLabel.text = item.sunset
         case 1:
-            topLeftLabel.text = "ОБЛАЧНОСТЬ"
-            topRightLabel.text = "ВЛАЖНОСТЬ"
-            bottomLeftLabel.text = item.clouds
-            bottomRightLabel.text = item.humidity
+            topLeftLabel.text = i20n.cloudsLabel
+            topRightLabel.text = i20n.humidityLabel
+            bottomLeftLabel.text = (item.clouds ?? "0") + " " + i20n.precentsString
+            bottomRightLabel.text = (item.humidity ?? "0") + " " + i20n.precentsString
         case 2:
-            topLeftLabel.text = "ВЕТЕР"
-            topRightLabel.text = "ОЩУЩАЕТСЯ КАК"
-            bottomLeftLabel.text = item.windSpeed
-            bottomRightLabel.text = item.feelsLike
+            topLeftLabel.text = i20n.windLabel
+            topRightLabel.text = i20n.feels_likeLabel
+            bottomLeftLabel.text = (item.windSpeed ?? "0") + " " + i20n.kmhString
+            bottomRightLabel.text = (item.feelsLike ?? "0") + i20n.degreesString
         case 3:
-            topLeftLabel.text = "ОСАДКИ"
-            topRightLabel.text = "ДАВЛЕНИЕ"
-            bottomLeftLabel.text = item.rain
-            bottomRightLabel.text = item.pressure
+            topLeftLabel.text = i20n.rainLabel
+            topRightLabel.text = i20n.pressureLabel
+            bottomLeftLabel.text = (item.rain ?? "0") + " " + i20n.centimetersString
+            bottomRightLabel.text = (item.clouds ?? "0") + " " + i20n.HPAString
         case 4:
-            topLeftLabel.text = "ВИДИМОСТЬ"
-            topRightLabel.text = "УФ-ИНДЕКС"
-            bottomLeftLabel.text = item.visibility
+            topLeftLabel.text = i20n.visibilityLabel
+            topRightLabel.text = i20n.uviLabel
+            bottomLeftLabel.text = (item.visibility ?? "0") + " " + i20n.kmString
             bottomRightLabel.text = item.uvIndex
         default:
             topLeftLabel.text = ""

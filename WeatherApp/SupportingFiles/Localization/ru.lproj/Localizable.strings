@@ -1,0 +1,47 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Антон Потапчик on 9/28/20.
+  Copyright © 2020 TonyPo Production. All rights reserved.
+*/
+"error_title" = "Ошибка!";
+"sunrise" = "ВОСХОД СОЛНЦА";
+"sunset" = "ЗАХОД СОЛНЦА";
+"clouds" = "ОБЛАЧНОСТЬ";
+"humidity" = "ВЛАЖНОСТЬ";
+"windCaps" = "ВЕТЕР";
+"feels_like" = "ОЩУЩАЕТСЯ КАК";
+"rain" = "ОСАДКИ";
+"pressure" = "ДАВЛЕНИЕ";
+"visibility" = "ВИДИМОСТЬ";
+"uvi" = "УФ-ИНДЕКС";
+"centimeters" = "см";
+"HPA" = "гПА";
+"km" = "км";
+"km/h" = "км/ч";
+"%" = "%";
+"degrees" = "º";
+"now" = "Сейчас";
+"wind" = "ветер";
+"air_temperature" = "Температура воздуха";
+"wind_speed" = "скорость ветра";
+"wind_direction" = "направление ветра";
+"max" = "Макс.";
+"min" = "мин.";
+"today" = "Сегодня:";
+"north" = "с";
+"norh-norh-east" = "ссв";
+"norh-east" = "св";
+"east" = "в";
+"east-south-east" = "вюв";
+"south-east" = "юв";
+"south-south-east" = "ююв";
+"south" = "ю";
+"south-south-west" = "юсз";
+"south-west" = "юз";
+"west" = "з";
+"west-north-west" = "зсз";
+"north-west" = "сз";
+"north-north-west" = "ссз";
+

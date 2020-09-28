@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
     
+    private var headerViewHeight: CGFloat?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -224,22 +226,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: height)
         secondHeaderView.frame = CGRect(x: 0, y: headerView.bounds.height, width: view.bounds.width, height: UIScreen.main.bounds.height / 7)
         
-        if scrollView.contentOffset.y > 0 {
-            print(scrollView.contentOffset.y)
-            let offset = max(height, 0)
-            headerView.decrementColorAlpha(offset: offset)
-        }
-        
-        //
-        //        headerView.incrementColorAlpha(self.headerHeightConstraint.constant)
-        //        headerView.incrementArticleAlpha(self.headerHeightConstraint.constant)
-        //        } else if scrollView.contentOffset.y > 0 && self.headerHeightConstraint.constant >= 65 {
-        //        self.headerHeightConstraint.constant -= scrollView.contentOffset.y/100
-        //        headerView.decrementColorAlpha(scrollView.contentOffset.y)
-        //        headerView.decrementArticleAlpha(self.headerHeightConstraint.constant)
-        //        if self.headerHeightConstraint.constant < 65 {
-        //        self.headerHeightConstraint.constant = 65
-        //        }
         
     }
     

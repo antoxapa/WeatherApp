@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Антон Потапчик on 9/28/20.
+  Copyright © 2020 TonyPo Production. All rights reserved.
+*/
+"error_title" = "Error!";
+"sunrise" = "SUNRISE";
+"sunset" = "SUNSET";
+"clouds" = "CLOUDS";
+"humidity" = "HUMIDITY";
+"windCaps" = "WIND";
+"feels_like" = "FEELS LIKE";
+"rain" = "RAIN";
+"pressure" = "PRESSURE";
+"visibility" = "VISIBILITY";
+"uvi" = "UVI";
+"centimeters" = "cm";
+"HPA" = "hPA";
+"km" = "km";
+"km/h" = "km/h";
+"%" = "%";
+"degrees" = "º";
+"now" = "Now";
+"wind" = "wind";
+"air_temperature" = "Air temperature";
+"wind_speed" = "wind speed";
+"wind_direction" = "wind direction";
+"max" = "Max.";
+"min" = "min.";
+"today" = "Today:";
+"north" = "n";
+"norh-norh-east" = "nne";
+"norh-east" = "ne";
+"east" = "e";
+"east-south-east" = "ese";
+"south-east" = "se";
+"south-south-east" = "sse";
+"south" = "s";
+"south-south-west" = "ssw";
+"south-west" = "sw";
+"west" = "w";
+"west-north-west" = "wnw";
+"north-west" = "nw";
+"north-north-west" = "nnw";

@@ -8,12 +8,13 @@
 
 import Foundation
 
-//Todo: - Should create protocol NetworkManager
-// Todo: -
+// Todo: - Should create protocol NetworkManager
+
 class NetworkManager {
     
     private var decoder = JSONDecoder()
     private var decoderOfferModel: OfferModel?
+    private var locale = Locale.current.languageCode!
     
     func getWeather(forLatitude latitude: Double, longitude: Double, result: @escaping ((OfferModel?) -> Void), onError: @escaping (Error?) -> Void) {
         
@@ -25,7 +26,8 @@ class NetworkManager {
                                     URLQueryItem(name: "lon", value: "\(longitude)"),
                                     URLQueryItem(name: "units", value: "metric"),
                                     URLQueryItem(name: "exclude", value: "minutely"),
-                                    URLQueryItem(name: "appid", value: Constants.API.API_KEY)
+                                    URLQueryItem(name: "appid", value: Constants.API.API_KEY),
+                                    URLQueryItem(name: "lang", value: "\(locale)")
         ]
         
         guard let url = urlComponents.url else { return }

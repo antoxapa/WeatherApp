@@ -10,7 +10,22 @@ import Foundation
 
 enum Direction: String {
     
-    case n, nne, ne, ene, e, ese, se, sse, s, ssw, sw, wsw, w, wnw, nw, nnw
+    case n
+    case nne
+    case ne
+    case ene
+    case e
+    case ese
+    case se
+    case sse
+    case s
+    case ssw
+    case sw
+    case wsw
+    case w
+    case wnw
+    case nw
+    case nnw
     
 }
 

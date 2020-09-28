@@ -34,7 +34,7 @@ extension Double {
         
         let date = Date(timeIntervalSince1970: self)
         var calendar = Calendar.current
-        calendar.locale = Locale(identifier: "ru_RU")
+        calendar.locale = .current
         let weekday = calendar.component(.weekday, from: date) % 7
         return calendar.weekdaySymbols[weekday].firstUppercased
         

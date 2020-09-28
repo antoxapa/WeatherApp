@@ -35,7 +35,7 @@ class HeaderView: UIView {
         get { return degreesLabel?.text }
         set {
             guard let newValue = newValue else { return }
-            degreesLabel.text = "\(newValue)º"
+            degreesLabel.text = "\(newValue)\(i20n.degreesString)"
         }
     }
     
@@ -43,14 +43,14 @@ class HeaderView: UIView {
         get { return maxTemperatureLabel?.text }
         set {
             guard let newValue = newValue else { return }
-            maxTemperatureLabel.text = "Max. \(newValue)º, "}
+            maxTemperatureLabel.text = "\(i20n.maxString) \(newValue)\(i20n.degreesString), "}
     }
     
     private var minTemperature: String? {
         get { return minTemperatureLabel?.text }
         set {
             guard let newValue = newValue else { return }
-            minTemperatureLabel.text = "min. \(newValue)º"
+            minTemperatureLabel.text = "\(i20n.minString) \(newValue)\(i20n.degreesString)"
         }
     }
     
