@@ -39,6 +39,11 @@ class SecondHeaderView: UIView {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+          flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        }
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        
         collectionView.register(UINib(nibName: "HourWeatherCell", bundle: nil), forCellWithReuseIdentifier: "HourCell")
         
     }
@@ -80,7 +85,7 @@ extension SecondHeaderView: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
-        return 0
+        return 20
         
     }
     

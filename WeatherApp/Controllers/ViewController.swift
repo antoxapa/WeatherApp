@@ -18,12 +18,15 @@ class ViewController: UIViewController {
     
     private var secondHeaderView = SecondHeaderView()
     private let networkManager = NetworkManager()
+    private var dataManager: DataManagerProtocol = DataManager()
+    
     private let locationManager = CLLocationManager()
-    lazy private var dataManager: DataManagerProtocol = DataManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupToolBar()
         setupHeaderView()
         setupCollectionView()
         setupPanGestureRecognizer()
@@ -78,6 +81,15 @@ class ViewController: UIViewController {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
         self.tableView.tableFooterView = UIView()
+        
+    }
+    
+    private func setupToolBar() {
+        
+        let topBorder = CALayer()
+        topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0.6)
+        topBorder.backgroundColor = UIColor.white.cgColor
+        self.navigationController?.toolbar.layer.addSublayer(topBorder)
         
     }
     
@@ -211,10 +223,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let height = max(y, UIScreen.main.bounds.height / 7)
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: height)
         secondHeaderView.frame = CGRect(x: 0, y: headerView.bounds.height, width: view.bounds.width, height: UIScreen.main.bounds.height / 7)
-        //            if scrollView.contentOffset.y < 0 {
-        //                let offset = max(height, 0)
-        //                headerView.decrementColorAlpha(offset: offset)
-        //            }
+        
+        if scrollView.contentOffset.y > 0 {
+            print(scrollView.contentOffset.y)
+            let offset = max(height, 0)
+            headerView.decrementColorAlpha(offset: offset)
+        }
         
         //
         //        headerView.incrementColorAlpha(self.headerHeightConstraint.constant)
@@ -245,6 +259,7 @@ extension ViewController: CLLocationManagerDelegate {
             break
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
+            getWeather()
             break
         @unknown default:
             self.showErrorAlert(withTitle: "Error", message: "Unknown error")
@@ -265,6 +280,7 @@ extension ViewController: CLLocationManagerDelegate {
             break
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
+            getWeather()
             break
         @unknown default:
             self.showErrorAlert(withTitle: "Error", message: "Unknown error")

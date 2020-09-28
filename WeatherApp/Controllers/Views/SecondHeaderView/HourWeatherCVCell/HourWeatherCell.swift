@@ -18,7 +18,7 @@ class HourWeatherCell: UICollectionViewCell {
     func configure(with item: HourWeatherItem) {
         
         timeLabel.text = item.time
-        temperatureLabel.text = item.temperature
+        temperatureLabel.text = item.temperature + "º"
         weatherImage.image = UIImage(named: item.iconName)
         
     }

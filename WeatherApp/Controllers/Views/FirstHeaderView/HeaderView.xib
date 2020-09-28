@@ -25,19 +25,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="-10" translatesAutoresizingMaskIntoConstraints="NO" id="EKf-cS-CEE">
-                    <rect key="frame" x="164" y="147" width="79" height="126.5"/>
+                    <rect key="frame" x="147.5" y="123" width="112" height="174"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xmz-xp-xLU">
-                            <rect key="frame" x="7.5" y="0.0" width="64.5" height="44.5"/>
+                            <rect key="frame" x="24" y="0.0" width="64.5" height="56.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6X-sB-7IG">
-                                    <rect key="frame" x="13.5" y="0.0" width="37.5" height="24"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                    <rect key="frame" x="6" y="0.0" width="52" height="36"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLR-r7-PSi">
-                                    <rect key="frame" x="0.0" y="24" width="64.5" height="20.5"/>
+                                    <rect key="frame" x="0.0" y="36" width="64.5" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -45,16 +45,16 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="-10" translatesAutoresizingMaskIntoConstraints="NO" id="4ek-jo-ZQg">
-                            <rect key="frame" x="0.0" y="34.5" width="79" height="92"/>
+                            <rect key="frame" x="0.0" y="46.5" width="112" height="127.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sZE-CQ-XaU">
-                                    <rect key="frame" x="0.0" y="0.0" width="79" height="84"/>
-                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="112" height="119.5"/>
+                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="100"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="psq-F5-8Gh">
-                                    <rect key="frame" x="12.5" y="74" width="54" height="18"/>
+                                    <rect key="frame" x="29" y="109.5" width="54" height="18"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVR-uo-aqG">
                                             <rect key="frame" x="0.0" y="0.0" width="29" height="18"/>
@@ -86,9 +86,10 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="QXN-cQ-C3r" secondAttribute="trailing" id="Cj4-KV-e5O"/>
                 <constraint firstItem="EKf-cS-CEE" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="D7V-wZ-3OC"/>
-                <constraint firstItem="EKf-cS-CEE" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" priority="900" id="IiW-B6-ado"/>
+                <constraint firstItem="EKf-cS-CEE" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" priority="250" id="IiW-B6-ado"/>
                 <constraint firstItem="QXN-cQ-C3r" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JDo-oQ-LfV"/>
                 <constraint firstItem="t32-lZ-2lN" firstAttribute="bottom" secondItem="QXN-cQ-C3r" secondAttribute="bottom" id="eec-EJ-pVq"/>
+                <constraint firstItem="EKf-cS-CEE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="t32-lZ-2lN" secondAttribute="top" constant="10" id="hT9-69-aPq"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="t32-lZ-2lN"/>

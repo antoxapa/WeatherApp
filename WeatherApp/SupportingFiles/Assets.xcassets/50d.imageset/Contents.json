@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "50d.png",
+      "filename" : "041-fog@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "041-fog@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "041-fog@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

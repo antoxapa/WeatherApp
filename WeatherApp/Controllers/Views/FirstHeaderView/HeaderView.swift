@@ -86,8 +86,8 @@ class HeaderView: UIView {
     func decrementColorAlpha(offset: CGFloat) {
         
         if temperatureStackView.alpha <= 1 {
-            let alphaOffset = (offset/500)/85
-            temperatureStackView.alpha += alphaOffset
+            let alphaOffset = offset
+            temperatureStackView.alpha -= alphaOffset
         }
         
     }
@@ -95,8 +95,8 @@ class HeaderView: UIView {
     func incrementColorAlpha(offset: CGFloat) {
         
         if temperatureStackView.alpha >= 0 {
-            let alphaOffset = (offset/200)/85
-            temperatureStackView.alpha -= alphaOffset
+            let alphaOffset = offset
+            temperatureStackView.alpha += alphaOffset
         }
         
     }
