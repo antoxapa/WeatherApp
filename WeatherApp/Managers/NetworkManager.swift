@@ -8,6 +8,8 @@
 
 import Foundation
 
+//Todo: - Should create protocol NetworkManager
+// Todo: -
 class NetworkManager {
     
     private var decoder = JSONDecoder()
@@ -48,26 +50,6 @@ class NetworkManager {
                 }
             }
             result(self.decoderOfferModel)
-            
-        }.resume()
-        
-    }
-    
-    func getWeatherImage(forIcon icon: String, result: @escaping ((Data) -> Void), onError: @escaping (Error?) -> Void) {
-        
-        guard let url = URL(string: "http://openweathermap.org/img/w/" + "\(icon)" + ".png") else { return }
-        
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: url) { (data, nil, error) in
-            
-            if error != nil {
-                onError(error)
-                return
-            }
-            
-            if let data = data {
-                result(data)
-            }
             
         }.resume()
         
