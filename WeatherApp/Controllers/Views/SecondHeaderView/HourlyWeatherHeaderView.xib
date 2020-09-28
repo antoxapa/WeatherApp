@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SecondHeaderView" customModule="WheatherApp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HourlyWeatherHeaderView" customModule="WeatherApp" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="yO4-wE-n0a" id="Mwj-4v-w8D"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="JXL-6n-XpR"/>

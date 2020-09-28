@@ -10,13 +10,33 @@ import Foundation
 
 // Todo: - Should create protocol NetworkManager
 
+enum NetworkManagerError: Error {
+    
+    case noData
+    case decodeError
+    
+}
+
+extension NetworkManagerError: LocalizedError {
+    
+    var errorDescription: String? {
+        switch self {
+        case .noData:
+            return "No data returned"
+        case .decodeError:
+            return "Fail to decode data"
+        }
+    }
+    
+}
+
 class NetworkManager {
     
-    private var decoder = JSONDecoder()
-    private var decoderOfferModel: OfferModel?
+    //    private var decoder = JSONDecoder()
+    //    private var decoderOfferModel: OfferModel?
     private var locale = Locale.current.languageCode!
     
-    func getWeather(forLatitude latitude: Double, longitude: Double, result: @escaping ((OfferModel?) -> Void), onError: @escaping (Error?) -> Void) {
+    func getWeather(forLatitude latitude: Double, longitude: Double, completion: @escaping ((Result<OfferModel, Error>) -> Void)) {
         
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
@@ -38,24 +58,26 @@ class NetworkManager {
         let session = URLSession(configuration: .default)
         session.dataTask(with: request) { (data, nil, error) in
             
-            if error != nil {
-                onError(error)
+            if let error = error {
+                completion(.failure(error))
                 return
             }
             
-            if let data = data {
-                do {
-                self.decoderOfferModel = try self.decoder.decode(OfferModel.self, from: data)
-                } catch {
-                    onError(error)
-                    return
-                }
+            guard let data = data else {
+                completion(.failure(NetworkManagerError.noData))
+                return
             }
-            result(self.decoderOfferModel)
+            
+            do {
+                let offerModel = try JSONDecoder().decode(OfferModel.self, from: data)
+                completion(.success(offerModel))
+            } catch {
+                completion(.failure(NetworkManagerError.decodeError))
+            }
             
         }.resume()
         
     }
-    
+        
 }
 

@@ -44,3 +44,5 @@
 "west-north-west" = "wnw";
 "north-west" = "nw";
 "north-north-west" = "nnw";
+"location_disabled" = "Location services are disabled on your device. In order to use this app, go to Settings → Privacy → Location Services and turn location services on.";
+"location_unknown" = "Location services unknown error";

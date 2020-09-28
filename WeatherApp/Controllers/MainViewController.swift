@@ -9,14 +9,22 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController {
+enum WeatherTableRow: Int {
+    
+    case weekdays = 0
+    case today
+    case extraInfo
+    
+}
+
+class MainViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var headerView = HeaderView()
+    private var headerView = MainWeatherHeaderView()
     private var model: OfferModel?
     
-    private var secondHeaderView = SecondHeaderView()
+    private var secondHeaderView = HourlyWeatherHeaderView()
     private let networkManager = NetworkManager()
     private var dataManager: DataManagerProtocol = DataManager()
     
@@ -33,30 +41,15 @@ class ViewController: UIViewController {
         setupCollectionView()
         setupPanGestureRecognizer()
         
-        dataManager.retrieveData(from: CoreDataManager.shared.viewContext(), data: { (model) in
-            guard let model = model else { return }
-            self.model = model
-            self.updateViews(withModel: model)
-        }, onError: { (error) in
-            self.showErrorAlert(withTitle: "Error", message: error?.localizedDescription)
-        })
+        getCoreData()
         
         setupLocationManager()
         
     }
     
-    private func setupLocationManager() {
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        enableBasicLocationServices()
-        
-    }
-    
     private func setupHeaderView () {
         
-        headerView = HeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: UIScreen.main.bounds.height / 2))
+        headerView = MainWeatherHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: UIScreen.main.bounds.height / 2))
         headerView.backgroundColor = #colorLiteral(red: 0.1768635809, green: 0.686615169, blue: 0.9441607594, alpha: 1)
         self.view.addSubview(headerView)
         
@@ -77,15 +70,6 @@ class ViewController: UIViewController {
         
     }
     
-    private func setupPanGestureRecognizer() {
-        
-        guard let tap = tableView?.panGestureRecognizer else { return }
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-        self.tableView.tableFooterView = UIView()
-        
-    }
-    
     private func setupToolBar() {
         
         let topBorder = CALayer()
@@ -95,41 +79,29 @@ class ViewController: UIViewController {
         
     }
     
-    private func downloadData(withLatitude latitude: Double, longitude: Double) {
+    private func setupPanGestureRecognizer() {
         
-        networkManager.getWeather(forLatitude: latitude, longitude: longitude, result: { (model) in
-            guard let model = model else { return }
-            self.model = model
-            DispatchQueue.main.async { [weak self] in
-                self?.updateViews(withModel: model)
-                self?.dataManager.save(data: model, in: CoreDataManager.shared.newBackgroundContext(), onError: { (error) in
-                    self?.showErrorAlert(withTitle: "Error", message: error?.localizedDescription)
-                })
-            }
-        }) { [weak self] (error) in
-            DispatchQueue.main.async {
-                self?.showErrorAlert(withTitle: "Error", message: error?.localizedDescription)
-            }
-        }
+        guard let tap = tableView?.panGestureRecognizer else { return }
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        self.tableView.tableFooterView = UIView()
         
     }
     
-    private func getWeather() {
+    private func setupLocationManager() {
         
-        var currentLocation: CLLocation?
-        
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
-            currentLocation = locationManager.location
-        } else {
-            showErrorAlert(withTitle: "Error", message: "Cant get location")
-            return
-        }
-        if let latitude = currentLocation?.coordinate.latitude,
-            let longitude = currentLocation?.coordinate.longitude {
-            downloadData(withLatitude: latitude, longitude: longitude)
-        }
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        enableBasicLocationServices()
         
     }
+    
+}
+
+extension MainViewController {
+    
+//    MARK: - Updating 
     
     private func updateViews(withModel model: OfferModel) {
         
@@ -157,7 +129,72 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension MainViewController {
+    
+    // MARK: - Get Data
+    
+    private func getWeather() {
+        
+        var currentLocation: CLLocation?
+        
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
+            currentLocation = locationManager.location
+        } else {
+            showErrorAlert(withTitle: i20n.error_title, message: i20n.locationUnknown)
+            return
+        }
+        if let latitude = currentLocation?.coordinate.latitude,
+            let longitude = currentLocation?.coordinate.longitude {
+            downloadData(withLatitude: latitude, longitude: longitude)
+        }
+        
+    }
+    
+    private func downloadData(withLatitude latitude: Double, longitude: Double) {
+        
+        networkManager.getWeather(forLatitude: latitude, longitude: longitude) { [weak self] result in
+            switch result {
+            case .success(let model):
+                self?.model = model
+                DispatchQueue.main.async { [weak self] in
+                    self?.updateViews(withModel: model)
+                    self?.dataManager.save(data: model, in: CoreDataManager.shared.newBackgroundContext(), onError: { (error) in
+                        self?.showErrorAlert(withTitle: i20n.error_title, message: error?.localizedDescription)
+                    })
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showErrorAlert(withTitle: i20n.error_title, message: error.localizedDescription)
+                }
+            }
+        }
+        
+    }
+    
+    private func getCoreData() {
+        
+        dataManager.retrieveData(from: CoreDataManager.shared.viewContext()) { [weak self] result in
+            
+            switch result {
+                
+            case .success(let model):
+                guard let model = model else { return }
+                self?.model = model
+                self?.updateViews(withModel: model)
+                
+            case .failure(let error):
+                self?.showErrorAlert(withTitle: i20n.error_title, message: error.localizedDescription)
+                
+            }
+        }
+        
+    }
+    
+}
+
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
+    
+//    MARK: - TableView DataSource + Delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -167,17 +204,22 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        guard let row = WeatherTableRow(rawValue: indexPath.row) else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+            cell.backgroundColor = .clear
+            return cell
+        }
+        
+        switch row {
             
+        case .weekdays:
             guard let weekdaysWeatherCell = tableView.dequeueReusableCell(withIdentifier: "WeekdaysCell") as? WeekdaysWeatherCell else { return UITableViewCell() }
             if let model = model?.daily {
                 weekdaysWeatherCell.updateViews(with: model)
             }
             return weekdaysWeatherCell
             
-        }
-        if indexPath.row == 1 {
-            
+        case .today:
             guard let weatherTextCell = tableView.dequeueReusableCell(withIdentifier: "TextWeatherCell") as? TextWeatherCell else { return UITableViewCell() }
             
             if let model = model?.current {
@@ -186,8 +228,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
             return weatherTextCell
             
-        }
-        if indexPath.row == 2 {
+        case .extraInfo:
             guard let extraWeatherCell = tableView.dequeueReusableCell(withIdentifier: "ExtraWeatherInfoCell") as? ExtraWeatherInfoCell else { return UITableViewCell() }
             
             if let model = model {
@@ -195,29 +236,26 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             }
             
             return extraWeatherCell
+            
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = .clear
-        return cell
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.row == 0 {
+        guard let row = WeatherTableRow(rawValue: indexPath.row) else { return UITableView.automaticDimension }
+        switch row {
+        case .weekdays:
             return UIScreen.main.bounds.height - headerView.frame.height - secondHeaderView.frame.height - 80
-        }
-        if indexPath.row == 1 {
+            
+        case .today:
             return UIScreen.main.bounds.height / 7
-        }
-        if indexPath.row == 2 {
+        case .extraInfo:
             return UIScreen.main.bounds.height / 3
+            
         }
-        return UITableView.automaticDimension
         
     }
-    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -226,12 +264,16 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: height)
         secondHeaderView.frame = CGRect(x: 0, y: headerView.bounds.height, width: view.bounds.width, height: UIScreen.main.bounds.height / 7)
         
+        let offset = scrollView.contentOffset.y + scrollView.contentInset.top
+        headerView.updateLabelsAlpha(using: offset)
         
     }
     
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension MainViewController: CLLocationManagerDelegate {
+    
+//    MARK: - Location manager delegate
     
     func enableBasicLocationServices() {
         
@@ -240,15 +282,14 @@ extension ViewController: CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
             break
         case .restricted, .denied:
-            self.showErrorAlert(withTitle: "Error", message: "Location services are disabled on your device. In order to use this app, go to " +
-                "Settings → Privacy → Location Services and turn location services on.")
+            self.showErrorAlert(withTitle: i20n.error_title, message: i20n.locationDisabled)
             break
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
             getWeather()
             break
         @unknown default:
-            self.showErrorAlert(withTitle: "Error", message: "Unknown error")
+            self.showErrorAlert(withTitle: i20n.error_title, message: i20n.locationUnknown)
             break
         }
         
@@ -261,15 +302,14 @@ extension ViewController: CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
             break
         case .restricted, .denied:
-            self.showErrorAlert(withTitle: "Error", message: "Location services are disabled on your device. In order to use this app, go to " +
-                "Settings → Privacy → Location Services and turn location services on.")
+            self.showErrorAlert(withTitle: i20n.error_title, message: i20n.locationDisabled)
             break
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
             getWeather()
             break
         @unknown default:
-            self.showErrorAlert(withTitle: "Error", message: "Unknown error")
+            self.showErrorAlert(withTitle: i20n.error_title, message: i20n.locationUnknown)
             break
         }
         

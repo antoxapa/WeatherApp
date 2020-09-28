@@ -14,7 +14,7 @@ import CoreData
 protocol DataManagerProtocol {
     
     func save(data model: OfferModel, in managedContext: NSManagedObjectContext, onError: (Error?) -> Void)
-    func retrieveData(from context: NSManagedObjectContext, data: (OfferModel?) -> Void, onError: (Error?) -> Void)
+    func retrieveData(from context: NSManagedObjectContext, completion: @escaping ((Result<OfferModel?, Error>) -> Void))
     
 }
 
@@ -73,49 +73,51 @@ class DataManager: DataManagerProtocol {
         
     }
     
-    func retrieveData(from context: NSManagedObjectContext, data: (OfferModel?) -> Void, onError: (Error?) -> Void) {
+    func retrieveData(from context: NSManagedObjectContext, completion: @escaping ((Result<OfferModel?, Error>) -> Void)) {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Weather")
         var coreModel: OfferModel?
         
         do {
             let result = try context.fetch(fetchRequest)
-            guard let lastResult = result as? [NSManagedObject] else { return }
-            let data = lastResult.last
-            let timezone = data?.value(forKey: "timezone") as? String
-            let cWeather = data?.value(forKey: "current") as? CurrentWeatherData
-            let hWeather = data?.value(forKey: "hourly") as? HourlyWeatherData
-            let dWeather = data?.value(forKey: "daily") as? DailyWeatherData
+            guard let data = (result as? [NSManagedObject])?.last else {
+                completion(.success(nil))
+                return
+            }
+            let timezone = data.value(forKey: "timezone") as? String
+            let cWeather = data.value(forKey: "current") as? CurrentWeatherData
+            let hWeather = data.value(forKey: "hourly") as? HourlyWeatherData
+            let dWeather = data.value(forKey: "daily") as? DailyWeatherData
             
             guard
                 let currentWeather = cWeather?.currentWeather,
                 let hourlyWeather = hWeather?.hourlyWeather,
                 let dailyWeather = dWeather?.dailyWeather
-                else { return }
+                else {
+                    completion(.success(nil))
+                    return
+            }
             
             for dItem in dailyWeather {
-                dItem.weather = dWeather?.dailyWeatherModelWeather.map({ (coreItem) -> WeatherModel in
-                    return WeatherModel(withCoreItem: coreItem)
+                dItem.weather = dWeather?.dailyWeatherModelWeather.map({ WeatherModel(withCoreItem: $0)
                 })
             }
             
             for hItem in hourlyWeather {
-                hItem.weather = hWeather?.hourlyWeatherModelWeather.map({ (coreItem) -> WeatherModel in
-                    return WeatherModel(withCoreItem: coreItem)
+                hItem.weather = hWeather?.hourlyWeatherModelWeather.map({ WeatherModel(withCoreItem: $0)
                 })
             }
             
-            currentWeather.weather = hWeather?.hourlyWeatherModelWeather.map({ (coreItem) -> WeatherModel in
-                
-                return WeatherModel(withCoreItem: coreItem)
+            currentWeather.weather = hWeather?.hourlyWeatherModelWeather.map({ WeatherModel(withCoreItem: $0)
             })
             
             coreModel = OfferModel(withCoreItems: timezone, current: currentWeather, hourly: hourlyWeather, daily: dailyWeather)
             
         } catch {
-            print("Failed fetch")
-            onError(error)
+            completion(.failure(error))
         }
-        data(coreModel)
+        completion(.success(coreModel))
+        
     }
+    
 }

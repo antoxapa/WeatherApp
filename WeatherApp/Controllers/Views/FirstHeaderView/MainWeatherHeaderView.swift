@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HeaderView: UIView {
+class MainWeatherHeaderView: UIView {
     
     @IBOutlet private var contentView: UIView!
     @IBOutlet private weak var cityLabel: UILabel!
@@ -70,7 +70,7 @@ class HeaderView: UIView {
     
     private func initSubviews() {
         
-        let nib = UINib(nibName: "HeaderView", bundle: nil)
+        let nib = UINib(nibName: "MainWeatherHeaderView", bundle: nil)
         nib.instantiate(withOwner: self, options: nil)
         contentView.frame = bounds
         addSubview(contentView)
@@ -83,20 +83,21 @@ class HeaderView: UIView {
         
     }
     
-    func decrementColorAlpha(offset: CGFloat) {
+    func updateLabelsAlpha(using offset: CGFloat) {
         
-        if temperatureStackView.alpha <= 1 {
-            let alphaOffset = offset
-            temperatureStackView.alpha -= alphaOffset
+        guard offset > 0 else {
+            [degreesLabel, minTemperatureLabel, maxTemperatureLabel].forEach {
+                $0.alpha = 1.0
+            }
+            return
         }
         
-    }
-    
-    func incrementColorAlpha(offset: CGFloat) {
+        let degreesCoefficient = offset / 100
+        degreesLabel.alpha = max(1.0 - degreesCoefficient, 0.0)
         
-        if temperatureStackView.alpha >= 0 {
-            let alphaOffset = offset
-            temperatureStackView.alpha += alphaOffset
+        let temperatureCoefficient = offset / 100 + 0.2
+        [minTemperatureLabel, maxTemperatureLabel].forEach {
+            $0?.alpha = max(1.0 - temperatureCoefficient, 0.0)
         }
         
     }

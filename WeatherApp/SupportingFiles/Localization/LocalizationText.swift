@@ -50,5 +50,8 @@ struct i20n {
     static var wnwString: String { return "west-north-west".localized }
     static var nwString: String { return "north-west".localized }
     static var nnwString: String { return "north-north-west".localized }
+    
+    static var locationDisabled: String { return "location_disabled".localized }
+    static var locationUnknown: String { return "location_unknown".localized }
 
 }

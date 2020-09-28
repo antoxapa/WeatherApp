@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SecondHeaderView: UIView {
+class HourlyWeatherHeaderView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -31,7 +31,7 @@ class SecondHeaderView: UIView {
     
     private func initSubviews() {
         
-        let nib = UINib(nibName: "SecondHeaderView", bundle: nil)
+        let nib = UINib(nibName: "HourlyWeatherHeaderView", bundle: nil)
         nib.instantiate(withOwner: self, options: nil)
         contentView.frame = bounds
         addSubview(contentView)
@@ -57,7 +57,7 @@ class SecondHeaderView: UIView {
     
 }
 
-extension SecondHeaderView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HourlyWeatherHeaderView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
