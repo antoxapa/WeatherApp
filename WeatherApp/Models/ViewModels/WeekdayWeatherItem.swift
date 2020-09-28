@@ -25,4 +25,5 @@ struct WeekdayWeatherItem {
         nightTemperature = Int(model.temp?.night ?? 0).description
         
     }
+    
 }

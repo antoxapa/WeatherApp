@@ -30,9 +30,6 @@ class MainViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
     
-    private var headerViewHeight: CGFloat?
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -101,7 +98,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController {
     
-//    MARK: - Updating 
+    //    MARK: - Updating
     
     private func updateViews(withModel model: OfferModel) {
         
@@ -194,7 +191,7 @@ extension MainViewController {
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
-//    MARK: - TableView DataSource + Delegate
+    //    MARK: - TableView DataSource + Delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -273,7 +270,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension MainViewController: CLLocationManagerDelegate {
     
-//    MARK: - Location manager delegate
+    //    MARK: - Location manager delegate
     
     func enableBasicLocationServices() {
         

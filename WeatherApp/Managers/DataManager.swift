@@ -31,33 +31,10 @@ class DataManager: DataManagerProtocol {
             let dailyWeather = model.daily
             else { return }
         
-        var newHourlyWeatherWeatherArray: [WeatherModelData] = []
-        var newDailyWeatherWeatherArray: [WeatherModelData] = []
-        var newCurrentWeatherWeatherArray: [WeatherModelData] = []
-        
-        guard let array = currentWeather.weather else { return }
-        newCurrentWeatherWeatherArray = array.map { (model) -> WeatherModelData in
-            return WeatherModelData(main: model.main, description: model.description, icon: model.icon)
-        }
-        
-        for weather in hourlyWeather {
-            guard let array = weather.weather else { return }
-            newHourlyWeatherWeatherArray = array.map { (model) -> WeatherModelData in
-                return WeatherModelData(main: model.main, description: model.description, icon: model.icon)
-            }
-        }
-        
-        for weather in dailyWeather {
-            guard let array = weather.weather else { return }
-            newDailyWeatherWeatherArray = array.map { (model) -> WeatherModelData in
-                return WeatherModelData(main: model.main, description: model.description, icon: model.icon)
-            }
-        }
-        
         let timezone = model.timezone
-        let cWeather = CurrentWeatherData(currentWeather, cWeatherModelWeather: newCurrentWeatherWeatherArray)
-        let hWeather = HourlyWeatherData(hourlyWeather, hWeatherModelWeather: newHourlyWeatherWeatherArray)
-        let dWeather = DailyWeatherData(dailyWeather, dWeatherModelWeather: newDailyWeatherWeatherArray)
+        let cWeather = CurrentWeatherData(currentWeather)
+        let hWeather = HourlyWeatherData(hourlyWeather)
+        let dWeather = DailyWeatherData(dailyWeather)
         
         mObject.setValue(timezone, forKey: "timezone")
         mObject.setValue(cWeather, forKey: "current")
@@ -67,7 +44,7 @@ class DataManager: DataManagerProtocol {
         do {
             try managedContext.save()
         } catch let error as NSError {
-            print(error.userInfo)
+            onError(error)
             
         }
         
@@ -97,19 +74,6 @@ class DataManager: DataManagerProtocol {
                     completion(.success(nil))
                     return
             }
-            
-            for dItem in dailyWeather {
-                dItem.weather = dWeather?.dailyWeatherModelWeather.map({ WeatherModel(withCoreItem: $0)
-                })
-            }
-            
-            for hItem in hourlyWeather {
-                hItem.weather = hWeather?.hourlyWeatherModelWeather.map({ WeatherModel(withCoreItem: $0)
-                })
-            }
-            
-            currentWeather.weather = hWeather?.hourlyWeatherModelWeather.map({ WeatherModel(withCoreItem: $0)
-            })
             
             coreModel = OfferModel(withCoreItems: timezone, current: currentWeather, hourly: hourlyWeather, daily: dailyWeather)
             

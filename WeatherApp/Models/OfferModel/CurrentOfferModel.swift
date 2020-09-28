@@ -39,10 +39,11 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         case visibility = "visibility"
         case wind_speed = "wind_speed"
         case wind_deg = "wind_deg"
+        case weather = "weather"
         
     }
     
-    init(dt: Double, temp: Float, sunrise: Double, sunset: Double, feelsLike: Float, pressure: Float, humidity: Float, uvi: Float, clouds: Double, visibility: Float, windSpeed: Float, windDeg: Double) {
+    init(dt: Double, temp: Float, sunrise: Double, sunset: Double, feelsLike: Float, pressure: Float, humidity: Float, uvi: Float, clouds: Double, visibility: Float, windSpeed: Float, windDeg: Double, weather: [WeatherModel]) {
         
         self.dt = dt
         self.temp = temp
@@ -56,6 +57,7 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         self.visibility = visibility
         self.wind_speed = windSpeed
         self.wind_deg = windDeg
+        self.weather = weather
         
     }
     
@@ -79,6 +81,7 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         coder.encode(visibility, forKey: Key.visibility.rawValue)
         coder.encode(wind_speed, forKey: Key.wind_speed.rawValue)
         coder.encode(wind_deg, forKey: Key.wind_deg.rawValue)
+        coder.encode(weather, forKey: Key.weather.rawValue)
         
     }
     
@@ -96,9 +99,11 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         let dvisibility = coder.decodeObject(forKey: Key.visibility.rawValue) as! Float
         let dwindSpeed = coder.decodeObject(forKey: Key.wind_speed.rawValue) as! Float
         let dwindDeg = coder.decodeObject(forKey: Key.wind_deg.rawValue) as! Double
+        let dWeather = coder.decodeObject(forKey: Key.weather.rawValue) as! [WeatherModel]
         
-        self.init(dt: ddt, temp: dtemp, sunrise: dsunrise, sunset: dsunset, feelsLike: dfeel, pressure: dpressure, humidity: dhumidity, uvi: duvi, clouds: dclouds, visibility: dvisibility, windSpeed: dwindSpeed, windDeg: dwindDeg)
+        self.init(dt: ddt, temp: dtemp, sunrise: dsunrise, sunset: dsunset, feelsLike: dfeel, pressure: dpressure, humidity: dhumidity, uvi: duvi, clouds: dclouds, visibility: dvisibility, windSpeed: dwindSpeed, windDeg: dwindDeg, weather: dWeather)
         
     }
     
 }
+

@@ -17,7 +17,7 @@ struct TextWeatherItem {
     
     init(with model: CurrentOfferModel) {
         
-        weatherDescription = model.weather?.first?.description ?? ""
+        weatherDescription = model.weather?.first?.weatherDescription ?? ""
         temperature = "\(Int(model.temp ?? 0))"
         windSpeed = "\(model.wind_speed ?? 0)"
         windDirection = "."

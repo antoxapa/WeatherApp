@@ -12,10 +12,8 @@
                 <outlet property="cityLabel" destination="L6X-sB-7IG" id="W63-HA-Vxj"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="vdd-gi-PwE"/>
                 <outlet property="degreesLabel" destination="sZE-CQ-XaU" id="2fr-Gt-B2W"/>
-                <outlet property="mainStackView" destination="EKf-cS-CEE" id="MJR-Go-7cd"/>
                 <outlet property="maxTemperatureLabel" destination="QVR-uo-aqG" id="ph0-cW-4Si"/>
                 <outlet property="minTemperatureLabel" destination="Hiw-fI-8Yc" id="dby-EG-qym"/>
-                <outlet property="temperatureStackView" destination="4ek-jo-ZQg" id="hSM-FY-gLQ"/>
                 <outlet property="weatherLabel" destination="XLR-r7-PSi" id="oT4-DE-Ji3"/>
             </connections>
         </placeholder>

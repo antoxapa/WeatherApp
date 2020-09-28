@@ -24,7 +24,7 @@ struct CurrentWeatherItem {
         }
         
         self.locationName = locationName
-        self.weatherDescription = model.current?.weather?.first?.description?.firstCapitalized ?? ""
+        self.weatherDescription = model.current?.weather?.first?.weatherDescription?.firstCapitalized ?? ""
         self.temperature = Int((model.current?.temp ?? 0)).description
         self.maxTemperature = Int(model.daily?.first?.temp?.max ?? 0).description
         self.minTemperature = Int(model.daily?.first?.temp?.min ?? 0).description

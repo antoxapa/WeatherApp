@@ -18,9 +18,6 @@ class MainWeatherHeaderView: UIView {
     @IBOutlet private weak var minTemperatureLabel: UILabel!
     @IBOutlet private weak var maxTemperatureLabel: UILabel!
     
-    @IBOutlet private weak var temperatureStackView: UIStackView!
-    @IBOutlet private weak var mainStackView: UIStackView!
-    
     private var locationName: String? {
         get { return cityLabel?.text }
         set { cityLabel.text = newValue }

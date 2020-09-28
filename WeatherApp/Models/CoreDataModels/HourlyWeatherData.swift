@@ -11,35 +11,30 @@ import Foundation
 public class HourlyWeatherData: NSObject, NSCoding {
     
     public var hourlyWeather: [HourlyOfferModel]?
-    public var hourlyWeatherModelWeather: [WeatherModelData]
     
     enum Key: String {
         
         case hourlyWeather = "hourlyWeather"
-        case hourlyWeatherModelWeather = "hourlyWeatherModelWeather"
         
     }
     
-    init(_ hWeather: [HourlyOfferModel], hWeatherModelWeather: [WeatherModelData]) {
+    init(_ hWeather: [HourlyOfferModel]) {
         
         self.hourlyWeather = hWeather
-        self.hourlyWeatherModelWeather = hWeatherModelWeather
         
     }
     
     public func encode(with coder: NSCoder) {
         
         coder.encode(hourlyWeather, forKey: Key.hourlyWeather.rawValue)
-        coder.encode(hourlyWeatherModelWeather, forKey: Key.hourlyWeatherModelWeather.rawValue)
         
     }
     
     public required convenience init?(coder: NSCoder) {
         
         let hWeather = coder.decodeObject(forKey: Key.hourlyWeather.rawValue) as! [HourlyOfferModel]
-        let hourlyWeatherModelWeather = coder.decodeObject(forKey: Key.hourlyWeatherModelWeather.rawValue) as! [WeatherModelData]
         
-        self.init(hWeather, hWeatherModelWeather: hourlyWeatherModelWeather)
+        self.init(hWeather)
         
     }
     
