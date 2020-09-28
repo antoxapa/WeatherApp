@@ -22,7 +22,7 @@ struct CurrentWeatherItem {
         if let slashIndex = model.timezone?.firstIndex(of: "/"), let index = model.timezone?.index(after: slashIndex) {
             locationName = model.timezone?[index...].description ?? ""
         }
-        
+        // TODO: - Localize location name
         self.locationName = locationName
         self.weatherDescription = model.current?.weather?.first?.weatherDescription?.firstCapitalized ?? ""
         self.temperature = Int((model.current?.temp ?? 0)).description

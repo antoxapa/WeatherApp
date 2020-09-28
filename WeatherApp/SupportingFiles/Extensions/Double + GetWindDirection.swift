@@ -29,6 +29,8 @@ enum Direction: String {
     
 }
 
+// TODO: - Localize Direction
+
 extension Direction: CustomStringConvertible  {
     
     static let all: [Direction] = [.n, .nne, .ne, .ene, .e, .ese, .se, .sse, .s, .ssw, .sw, .wsw, .w, .wnw, .nw, .nnw]
