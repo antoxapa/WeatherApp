@@ -4,7 +4,7 @@
         <attribute name="current" optional="YES" attributeType="Transformable" customClassName="CurrentWeatherData"/>
         <attribute name="daily" optional="YES" attributeType="Transformable"/>
         <attribute name="hourly" optional="YES" attributeType="Transformable"/>
-        <attribute name="tiimezone" optional="YES" attributeType="String"/>
+        <attribute name="timezone" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="Weather" positionX="-27" positionY="18" width="128" height="103"/>

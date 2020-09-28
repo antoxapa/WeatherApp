@@ -40,9 +40,13 @@ class NetworkManager {
             }
             
             if let data = data {
-                self.decoderOfferModel = try? self.decoder.decode(OfferModel.self, from: data)
+                do {
+                self.decoderOfferModel = try self.decoder.decode(OfferModel.self, from: data)
+                } catch {
+                    onError(error)
+                    return
+                }
             }
-            
             result(self.decoderOfferModel)
             
         }.resume()

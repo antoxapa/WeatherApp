@@ -15,7 +15,7 @@ class OfferModel: Codable {
     var hourly: [HourlyOfferModel]?
     var daily: [DailyOfferModel]?
     
-    init(withCoreItems timeZone: String, current: CurrentOfferModel, hourly: [HourlyOfferModel], daily: [DailyOfferModel]) {
+    init(withCoreItems timeZone: String?, current: CurrentOfferModel?, hourly: [HourlyOfferModel]?, daily: [DailyOfferModel]?) {
         
         self.timezone = timeZone
         self.current = current

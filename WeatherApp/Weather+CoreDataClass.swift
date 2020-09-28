@@ -2,7 +2,7 @@
 //  Weather+CoreDataClass.swift
 //  WeatherApp
 //
-//  Created by Антон Потапчик on 9/27/20.
+//  Created by Антон Потапчик on 9/28/20.
 //  Copyright © 2020 TonyPo Production. All rights reserved.
 //
 //

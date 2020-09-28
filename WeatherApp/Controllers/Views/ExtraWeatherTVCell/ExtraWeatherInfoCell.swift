@@ -45,7 +45,7 @@ extension ExtraWeatherInfoCell: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "InfoWeatherCell", for: indexPath) as? InfoWeatherCell else { return UITableViewCell() }
         
-        if let model = model?.current {
+        if let model = model {
             cell.configure(withIndex: indexPath.row, item: InfoWeatherItem(model: model))
         }
         

@@ -22,7 +22,6 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
     var visibility: Float?
     var wind_speed: Float?
     var wind_deg: Double?
-    var rain: Double?
     
     var weather: [WeatherModel]?
     
@@ -40,11 +39,11 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         case visibility = "visibility"
         case wind_speed = "wind_speed"
         case wind_deg = "wind_deg"
-        case rain = "rain"
         
     }
     
-    init(dt: Double, temp: Float, sunrise: Double, sunset: Double, feelsLike: Float, pressure: Float, humidity: Float, uvi: Float, clouds: Double, visibility: Float, windSpeed: Float, windDeg: Double, rain: Double ) {
+    init(dt: Double, temp: Float, sunrise: Double, sunset: Double, feelsLike: Float, pressure: Float, humidity: Float, uvi: Float, clouds: Double, visibility: Float, windSpeed: Float, windDeg: Double) {
+        
         self.dt = dt
         self.temp = temp
         self.sunrise = sunrise
@@ -57,11 +56,13 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         self.visibility = visibility
         self.wind_speed = windSpeed
         self.wind_deg = windDeg
-        self.rain = rain
+        
     }
     
     public override init() {
+        
         super.init()
+        
     }
     
     public func encode(with coder: NSCoder) {
@@ -78,7 +79,6 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         coder.encode(visibility, forKey: Key.visibility.rawValue)
         coder.encode(wind_speed, forKey: Key.wind_speed.rawValue)
         coder.encode(wind_deg, forKey: Key.wind_deg.rawValue)
-        coder.encode(rain, forKey: Key.rain.rawValue)
         
     }
     
@@ -96,9 +96,8 @@ public class CurrentOfferModel: NSObject, NSCoding, Codable {
         let dvisibility = coder.decodeObject(forKey: Key.visibility.rawValue) as! Float
         let dwindSpeed = coder.decodeObject(forKey: Key.wind_speed.rawValue) as! Float
         let dwindDeg = coder.decodeObject(forKey: Key.wind_deg.rawValue) as! Double
-        let drain = coder.decodeObject(forKey: Key.rain.rawValue) as? Double
         
-        self.init(dt: ddt, temp: dtemp, sunrise: dsunrise, sunset: dsunset, feelsLike: dfeel, pressure: dpressure, humidity: dhumidity, uvi: duvi, clouds: dclouds, visibility: dvisibility, windSpeed: dwindSpeed, windDeg: dwindDeg, rain: drain ?? 0 )
+        self.init(dt: ddt, temp: dtemp, sunrise: dsunrise, sunset: dsunset, feelsLike: dfeel, pressure: dpressure, humidity: dhumidity, uvi: duvi, clouds: dclouds, visibility: dvisibility, windSpeed: dwindSpeed, windDeg: dwindDeg)
         
     }
     
